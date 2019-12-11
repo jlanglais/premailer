@@ -65,16 +65,17 @@ def merge_styles(inline_style, new_styles, classes, remove_unset_properties=Fals
     for pc in set(classes):
         styles[pc] = OrderedDict()
 
-    for i, style in enumerate(new_styles):
-        for k, v in style:
-            styles[classes[i]][k] = v
-
-    # keep always the old inline style
+    # get existing inline styles
     if inline_style:
         # inline should be a declaration list as I understand
         # ie property-name:property-value;...
         for k, v in csstext_to_pairs(inline_style):
             styles[""][k] = v
+
+    # use always the new inline style
+    for i, style in enumerate(new_styles):
+        for k, v in style:
+            styles[classes[i]][k] = v
 
     normal_styles = []
     pseudo_styles = []
